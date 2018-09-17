@@ -4,15 +4,14 @@ from requests.auth import HTTPBasicAuth
 import datetime
 import time
 import json
-link =  'http://emw.cumulocity.com/measurement/measurements'
-link2 =  'http://emw.cumulocity.com/inventory/managedObjects'
+link = 'http://softwareag10.cumulocity.com/measurement/measurements'
+
 utc_offset_sec = time.altzone if time.localtime().tm_isdst else time.timezone
 utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
 mydate = datetime.datetime.now().replace(tzinfo=datetime.timezone(offset=utc_offset)).isoformat()
 
 
-
-def send_data_via_http(values):
+def send_data_via_http(values, username, password):
 
     voltage_data = {
 
@@ -92,15 +91,15 @@ def send_data_via_http(values):
         "type": "c8y_PowerFactorMeasurement"
     }
 
-    username = "softwareag10/muriithicliffernest@gmail.com"
-    password = "F3ilWau%ee.?89"
+    #username = "softwareag10/muriithicliffernest@gmail.com"
+    #password = "F3ilWau%ee.?89"
     r = requests.post(link, json=voltage_data, auth=HTTPBasicAuth(username, password))
     r = requests.post(link, json=current_data, auth=HTTPBasicAuth(username, password))
     r = requests.post(link, json=energy_data, auth=HTTPBasicAuth(username, password))
     r = requests.post(link, json=power_data, auth=HTTPBasicAuth(username, password))
     r = requests.post(link, json=frequency_data, auth=HTTPBasicAuth(username, password))
     r = requests.post(link, json=pf_data, auth=HTTPBasicAuth(username, password))
-
+    print(r.status_code)
 
 #send_data_via_http([0,0,0,0,0,0])
 
