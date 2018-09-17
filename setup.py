@@ -8,7 +8,7 @@ setup(
     author='cmuriithi',
     author_email='emuriithi21@outlook.com',
     description='Eastron Smart Meter agent',
-    py_modules=['certifi', 'chardet' , 'idna', 'pyserial' , 'requests', 'urllib3'],
+    py_modules=['Eastron_agent', 'com_ports','cumulocity_REST'],
     entry_points={
 
                    'console_scripts': [
