@@ -9,6 +9,7 @@ from com_ports import serial_ports
 
 def convert_to_dec(data):
     value = struct.unpack('>f', binascii.unhexlify(data.replace(' ', '')))
+
     return value
 
 

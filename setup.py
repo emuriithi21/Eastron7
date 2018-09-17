@@ -13,7 +13,7 @@ setup(
 
                    'console_scripts': [
 
-                       'Eastron_agent = Eastron_agent:main'
+                       'eastronagent = Eastron_agent:main'
 
                    ]
 
