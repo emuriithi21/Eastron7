@@ -17,6 +17,7 @@ def convert_to_dec(data):
 def main():
     username = "softwareag10/muriithicliffernest@gmail.com"
     password = "F3ilWau%ee.?89"
+    device_id = "4117240"
     modbus_address = 100
     parser = argparse.ArgumentParser(
         description='Tenancy Details',
@@ -27,21 +28,25 @@ def main():
     parser.add_argument("-p", "--password", help=" Cumulocity tenant password",
                         )
 
+    parser.add_argument("-d", "--deviceId", help="Cumulocity device Id",
+                        )
     args = vars(parser.parse_args())
     if args['username']:
         username = args['username']
     if args['username']:
         password = args['password']
+    if args['deviceId']:
+        device_id = args['deviceId']
     print(username, password)
     ports = serial_ports()
     ports.append(0)
     while len(ports) > 1:
-        commands = [[modbus_address, 0x04, 0x00, 0x00, 0x00, 0x02, 0x78, 0x3E], #voltage
-                    [modbus_address, 0x04, 0x00, 0x06, 0x00, 0x02, 0x98, 0x3F], #current
-                    [modbus_address, 0x04, 0x00, 0x48, 0x00, 0x02, 0xF8, 0x28], #energy
-                    [modbus_address, 0x04, 0x00, 0x0C, 0x00, 0x02, 0xB8, 0x3D], #power
-                    [modbus_address, 0x04, 0x00, 0x46, 0x00, 0x02, 0x99, 0xEB], #frequency
-                    [modbus_address, 0x04, 0x00, 0x3E, 0x00, 0x02, 0x19, 0xF2]  #power factor
+        commands = [[0x64, 0x04, 0x00, 0x00, 0x00, 0x02, 0x78, 0x3E], #voltage
+                    [0x64, 0x04, 0x00, 0x06, 0x00, 0x02, 0x98, 0x3F], #current
+                    [0x64, 0x04, 0x00, 0x48, 0x00, 0x02, 0xF8, 0x28], #energy
+                    [0x64, 0x04, 0x00, 0x0C, 0x00, 0x02, 0xB8, 0x3D], #power
+                    [0x64, 0x04, 0x00, 0x46, 0x00, 0x02, 0x99, 0xEB], #frequency
+                    [0x64, 0x04, 0x00, 0x3E, 0x00, 0x02, 0x19, 0xF2]  #power factor
                      ]
 
 
@@ -82,8 +87,10 @@ def main():
         ser.close()
         print("Process Exited")
     while True:
-        send_data_via_http([30, 30, 30, 30, 30, 30], username, password) #testing
-        print("sent")
+        send_data_via_http([30, 30, 30, 30, 30, 30], username, password, device_id) #testing
+        print("sent dummy values, serial port closed")
         time.sleep(10)
+
+
 if __name__ == '__main__':
     main()

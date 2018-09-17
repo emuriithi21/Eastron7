@@ -11,7 +11,7 @@ utc_offset = datetime.timedelta(seconds=-utc_offset_sec)
 mydate = datetime.datetime.now().replace(tzinfo=datetime.timezone(offset=utc_offset)).isoformat()
 
 
-def send_data_via_http(values, username, password):
+def send_data_via_http(values, username, password, device_id):
 
     voltage_data = {
 
@@ -22,7 +22,7 @@ def send_data_via_http(values, username, password):
         },
         "time": str(mydate),
         "source": {
-            "id": "4117240"},
+            "id": device_id},
         "type": "c8y_VoltageMeasurement"
     }
 
@@ -35,7 +35,7 @@ def send_data_via_http(values, username, password):
         },
         "time": str(mydate),
         "source": {
-            "id": "4117240"},
+            "id": device_id},
         "type": "c8y_CurrentMeasurementmA"
     }
 
@@ -48,7 +48,7 @@ def send_data_via_http(values, username, password):
         },
         "time": str(mydate),
         "source": {
-            "id": "4117240"},
+            "id": device_id},
         "type": "c8y_EnergyMeasurement"
     }
 
@@ -61,7 +61,7 @@ def send_data_via_http(values, username, password):
         },
         "time": str(mydate),
         "source": {
-            "id": "4117240"},
+            "id": device_id},
         "type": "c8y_PowerMeasurement"
     }
 
@@ -74,7 +74,7 @@ def send_data_via_http(values, username, password):
         },
         "time": str(mydate),
         "source": {
-            "id": "4117240"},
+            "id": device_id},
         "type": "c8y_FrequencyMeasurement"
     }
 
@@ -87,7 +87,7 @@ def send_data_via_http(values, username, password):
         },
         "time": str(mydate),
         "source": {
-            "id": "4117240"},
+            "id": device_id},
         "type": "c8y_PowerFactorMeasurement"
     }
 
@@ -100,6 +100,8 @@ def send_data_via_http(values, username, password):
     r = requests.post(link, json=frequency_data, auth=HTTPBasicAuth(username, password))
     r = requests.post(link, json=pf_data, auth=HTTPBasicAuth(username, password))
     print(r.status_code)
+    if r.status_code == 401:
+        print("connection error, probably invalid username/password")
 
 #send_data_via_http([0,0,0,0,0,0])
 
